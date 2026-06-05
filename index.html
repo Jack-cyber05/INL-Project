@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- REPLACE: Update the title with lecturer's name -->
+<title>Dr. [Lecturer Name] · Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+/* ===========================
+   CSS CUSTOM PROPERTIES
+   =========================== */
+:root {
+  --bg:        #0a0612;
+  --bg2:       #110d1e;
+  --bg3:       #1a1332;
+  --violet:    #7c3aed;
+  --violet-l:  #a78bfa;
+  --violet-d:  #4c1d95;
+  --blue:      #3b82f6;
+  --blue-l:    #93c5fd;
+  --cyan:      #06b6d4;
+  --white:     #f1eeff;
+  --muted:     #8b7faa;
+  --border:    rgba(124,58,237,0.18);
+  --border2:   rgba(124,58,237,0.35);
+  --glow:      0 0 30px rgba(124,58,237,0.25);
+  --glow2:     0 0 60px rgba(124,58,237,0.15);
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --nav-h:     64px;
+}
+
+/* ===========================
+   RESET & BASE
+   =========================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+::selection { background: var(--violet); color: #fff; }
+
+/* ===========================
+   SCROLLBAR
+   =========================== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--violet); border-radius: 2px; }
+
+/* ===========================
+   NAV
+   =========================== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(1.5rem, 5vw, 4rem);
+  background: rgba(10,6,18,0.7);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--font-head);
+  font-size: 1.1rem; font-weight: 800;
+  letter-spacing: .04em;
+  background: linear-gradient(90deg, var(--violet-l), var(--blue-l));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-size: .8rem; font-weight: 500; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted);
+  text-decoration: none; transition: color .2s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; background: none; border: none; padding: 4px; }
+.nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--muted); border-radius: 2px; transition: all .3s; }
+
+/* ===========================
+   SECTION SHARED
+   =========================== */
+section { padding: clamp(5rem, 10vw, 8rem) clamp(1.5rem, 6vw, 6rem); }
+.section-tag {
+  display: inline-block;
+  font-size: .7rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--violet-l);
+  border: 1px solid var(--border2);
+  padding: .3rem .9rem;
+  border-radius: 20px;
+  margin-bottom: 1.25rem;
+}
+.section-title {
+  font-family: var(--font-head);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.section-sub {
+  color: var(--muted);
+  font-size: 1rem;
+  max-width: 540px;
+  margin-bottom: 3rem;
+}
+
+/* ===========================
+   SCROLL REVEAL
+   =========================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+.reveal-delay-4 { transition-delay: .4s; }
+.reveal-delay-5 { transition-delay: .5s; }
+
+/* ===========================
+   STAR FIELD BACKGROUND
+   =========================== */
+#starfield {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden;
+}
+.star {
+  position: absolute; border-radius: 50%;
+  background: #fff;
+  animation: twinkle var(--d, 4s) ease-in-out infinite var(--delay, 0s);
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0; transform: scale(1); }
+  50%      { opacity: var(--op, .6); transform: scale(1.3); }
+}
+
+/* ===========================
+   HERO SECTION
+   =========================== */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding-top: var(--nav-h);
+  overflow: hidden;
+}
+.hero-grid-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+.hero-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%);
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  animation: pulse-glow 5s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%,100% { transform: translate(-50%,-50%) scale(1); opacity: .6; }
+  50%      { transform: translate(-50%,-50%) scale(1.15); opacity: 1; }
+}
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 900px;
+}
+.hero-eyebrow {
+  display: flex; align-items: center; gap: .75rem;
+  margin-bottom: 2rem;
+}
+.hero-eyebrow-line { width: 32px; height: 2px; background: var(--violet); }
+.hero-eyebrow span {
+  font-size: .75rem; font-weight: 500; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--violet-l);
+}
+
+/* Avatar */
+.avatar-wrap {
+  margin-bottom: 2rem;
+  position: relative; display: inline-block;
+}
+.avatar {
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  border: 2px solid var(--border2);
+  box-shadow: 0 0 40px rgba(124,58,237,0.3);
+  overflow: hidden;
+  position: relative;
+  background: var(--bg3);
+  animation: avatar-float 4s ease-in-out infinite;
+}
+@keyframes avatar-float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+/* CSS avatar character */
+.avatar-inner {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  padding-bottom: 6px;
+  position: relative;
+}
+.av-bg   { position:absolute;inset:0;background:linear-gradient(160deg,#1e0c45,#0d2060); }
+.av-body { position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:0; }
+.av-head {
+  width: 52px; height: 52px; border-radius: 50%;
+  /* REPLACE: Change background color to match lecturer's skin tone preference */
+  background: linear-gradient(160deg, #f0c090, #d4956a);
+  position: relative;
+}
+.av-hair {
+  position: absolute; top: -6px; left: -4px; right: -4px;
+  height: 30px; border-radius: 50% 50% 0 0;
+  /* REPLACE: Change hair color to match lecturer */
+  background: #1a0a00;
+}
+.av-glasses {
+  position: absolute; top: 22px; left: 7px; right: 7px;
+  height: 12px;
+  border: 2px solid var(--violet-l);
+  border-radius: 6px;
+  background: rgba(147,197,253,0.15);
+}
+.av-glasses::before {
+  content:''; position:absolute; top: 2px; left: 50%; transform:translateX(-50%);
+  width: 4px; height: 6px;
+  border-bottom: 2px solid var(--violet-l);
+}
+.av-shirt {
+  width: 62px; height: 28px;
+  margin-top: 3px;
+  border-radius: 8px 8px 0 0;
+  /* REPLACE: Change shirt color to match lecturer's preference */
+  background: linear-gradient(160deg, #4c1d95, #1d4ed8);
+  position: relative;
+}
+.av-collar {
+  position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:0; height:0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 12px solid #f0c090;
+}
+.av-ring {
+  position: absolute; top: -8px; left: -8px; right: -8px; bottom: -8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(167,139,250,0.4);
+  animation: ring-spin 8s linear infinite;
+}
+.av-ring::before {
+  content:''; position:absolute;
+  top: -3px; left: 50%; transform:translateX(-50%);
+  width: 6px; height: 6px; border-radius:50%;
+  background: var(--violet-l);
+}
+@keyframes ring-spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+
+/* Hero text */
+.hero-name {
+  font-family: var(--font-head);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 800;
+  line-height: .95;
+  letter-spacing: -.02em;
+  margin-bottom: 1.25rem;
+}
+.hero-name .line1 { display: block; }
+.hero-name .accent {
+  background: linear-gradient(90deg, var(--violet-l), var(--blue-l), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 4s ease-in-out infinite;
+  background-size: 200% 100%;
+}
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.hero-tagline {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  min-height: 2em;
+}
+.cursor {
+  display: inline-block; width: 2px; height: 1.1em;
+  background: var(--violet-l);
+  vertical-align: middle; margin-left: 2px;
+  animation: blink .8s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* Particles */
+.particles { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  animation: particle-float var(--d,5s) ease-in-out infinite var(--delay,0s);
+}
+@keyframes particle-float {
+  0%,100% { transform: translateY(0) translateX(0); opacity: 0; }
+  20%      { opacity: 1; }
+  80%      { opacity: .7; }
+  100%     { transform: translateY(-60px) translateX(var(--drift,10px)); opacity: 0; }
+}
+
+/* Badges */
+.hero-badges { display: flex; flex-wrap: wrap; gap: .6rem; }
+.badge {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .45rem 1rem;
+  background: rgba(124,58,237,0.12);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  font-size: .8rem; color: var(--violet-l);
+  backdrop-filter: blur(8px);
+  transition: background .2s, transform .2s;
+}
+.badge:hover { background: rgba(124,58,237,0.22); transform: translateY(-2px); }
+
+/* ===========================
+   ABOUT SECTION
+   =========================== */
+#about { position: relative; background: var(--bg2); }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 4rem;
+  align-items: center;
+}
+.about-card {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: var(--glow);
+  animation: glow-pulse 4s ease-in-out infinite;
+  position: relative; overflow: hidden;
+}
+.about-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--violet), var(--blue), var(--cyan));
+}
+@keyframes glow-pulse {
+  0%,100% { box-shadow: 0 0 20px rgba(124,58,237,0.2); }
+  50%      { box-shadow: 0 0 45px rgba(124,58,237,0.35); }
+}
+.about-avatar-lg {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--violet-d), var(--blue));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 0 20px rgba(124,58,237,0.3);
+}
+.about-name {
+  font-family: var(--font-head);
+  font-size: 1.4rem; font-weight: 800;
+  margin-bottom: .25rem;
+}
+.about-title { color: var(--violet-l); font-size: .9rem; margin-bottom: 1.5rem; }
+.about-stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: .75rem; margin-bottom: 1.5rem;
+}
+.stat {
+  background: rgba(124,58,237,0.1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .75rem;
+}
+.stat-num {
+  font-family: var(--font-head);
+  font-size: 1.5rem; font-weight: 800;
+  color: var(--violet-l);
+}
+.stat-label { font-size: .75rem; color: var(--muted); }
+.about-badges { display: flex; flex-wrap: wrap; gap: .5rem; }
+.personality-badge {
+  display: flex; align-items: center; gap: .35rem;
+  padding: .3rem .75rem;
+  background: rgba(59,130,246,0.12);
+  border: 1px solid rgba(59,130,246,0.3);
+  border-radius: 20px;
+  font-size: .75rem; color: var(--blue-l);
+}
+/* About right side */
+.about-text { color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; font-size: .95rem; }
+.about-qual {
+  display: flex; flex-direction: column; gap: .75rem; margin-bottom: 2rem;
+}
+.qual-item {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: .85rem 1rem;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: border-color .2s;
+}
+.qual-item:hover { border-color: var(--border2); }
+.qual-icon {
+  width: 32px; height: 32px; flex-shrink: 0;
+  border-radius: 8px;
+  background: rgba(124,58,237,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+.qual-name { font-weight: 500; font-size: .9rem; }
+.qual-inst { font-size: .8rem; color: var(--muted); }
+
+/* ===========================
+   MODULES SECTION
+   =========================== */
+#modules { position: relative; }
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+/* Flip card */
+.flip-card {
+  height: 220px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+.flip-card-inner {
+  width: 100%; height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform .6s cubic-bezier(.4,0,.2,1);
+}
+.flip-card:hover .flip-card-inner,
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.flip-front, .flip-back {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+}
+.flip-front {
+  background: var(--bg2);
+  display: flex; flex-direction: column;
+}
+.flip-back {
+  background: linear-gradient(135deg, var(--violet-d), #1e3a8a);
+  transform: rotateY(180deg);
+  display: flex; flex-direction: column; justify-content: space-between;
+  border-color: var(--border2);
+}
+.flip-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: rgba(124,58,237,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+.flip-code { font-size: .72rem; color: var(--violet-l); letter-spacing: .1em; margin-bottom: .35rem; }
+.flip-name { font-family: var(--font-head); font-size: 1rem; font-weight: 700; }
+.flip-level { font-size: .75rem; color: var(--muted); margin-top: auto; }
+.flip-hint { font-size: .7rem; color: rgba(255,255,255,0.4); margin-top: .5rem; }
+.flip-back-title { font-family: var(--font-head); font-size: 1rem; font-weight: 700; }
+.flip-back-desc { font-size: .82rem; color: rgba(255,255,255,0.8); line-height: 1.6; flex: 1; margin: .75rem 0; }
+.flip-back-tag {
+  display: inline-block; padding: .25rem .75rem;
+  background: rgba(255,255,255,0.12);
+  border-radius: 20px; font-size: .72rem;
+  color: rgba(255,255,255,0.9);
+}
+
+/* ===========================
+   FUN FACTS SECTION
+   =========================== */
+#funfacts { background: var(--bg2); }
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.fact-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: border-color .25s, transform .25s, box-shadow .25s;
+  position: relative; overflow: hidden;
+  user-select: none;
+}
+.fact-card::after {
+  content: 'Click to reveal';
+  position: absolute; bottom: .75rem; right: 1rem;
+  font-size: .7rem; color: var(--muted); opacity: .6;
+  transition: opacity .2s;
+}
+.fact-card.revealed::after { opacity: 0; }
+.fact-card:hover {
+  border-color: var(--border2);
+  transform: translateY(-3px);
+  box-shadow: var(--glow);
+}
+.fact-card.revealed {
+  border-color: var(--violet);
+  box-shadow: 0 0 25px rgba(124,58,237,0.2);
+}
+.fact-emoji { font-size: 2rem; margin-bottom: .75rem; display: block; }
+.fact-label {
+  font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--violet-l); margin-bottom: .5rem;
+}
+.fact-title { font-family: var(--font-head); font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
+.fact-reveal {
+  font-size: .85rem; color: var(--muted);
+  max-height: 0; overflow: hidden;
+  transition: max-height .4s ease, opacity .4s ease;
+  opacity: 0;
+}
+.fact-card.revealed .fact-reveal { max-height: 100px; opacity: 1; }
+
+/* ===========================
+   QUOTE WALL SECTION
+   =========================== */
+#quotes { position: relative; overflow: hidden; }
+.quotes-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(124,58,237,0.07), transparent);
+}
+.quote-carousel { position: relative; min-height: 260px; }
+.quote-slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 0 clamp(1rem, 5vw, 6rem);
+  opacity: 0; transition: opacity .8s ease;
+  pointer-events: none;
+}
+.quote-slide.active { opacity: 1; pointer-events: auto; }
+.quote-mark {
+  font-family: var(--font-head);
+  font-size: 6rem; line-height: .5;
+  color: var(--violet); opacity: .2;
+  display: block; margin-bottom: .5rem;
+}
+.quote-text {
+  font-family: var(--font-head);
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-weight: 600; line-height: 1.4;
+  color: var(--white);
+  max-width: 700px; margin: 0 auto .75rem;
+}
+.quote-attr {
+  font-size: .85rem; color: var(--violet-l);
+  display: flex; align-items: center; gap: .5rem;
+  justify-content: center;
+}
+.quote-attr::before, .quote-attr::after {
+  content: ''; display: block;
+  width: 24px; height: 1px; background: var(--border2);
+}
+/* Dots nav */
+.quote-nav {
+  display: flex; justify-content: center;
+  gap: .5rem; margin-top: 2.5rem;
+}
+.q-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--border2); border: none; cursor: pointer;
+  transition: background .3s, transform .3s;
+  padding: 0;
+}
+.q-dot.active { background: var(--violet); transform: scale(1.4); }
+
+/* ===========================
+   CONTACT SECTION
+   =========================== */
+#contact { background: var(--bg2); text-align: center; }
+.contact-inner { max-width: 700px; margin: 0 auto; }
+.contact-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2.5rem 0 3rem; text-align: left; }
+.contact-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: border-color .2s, transform .2s;
+}
+.contact-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.cc-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: rgba(124,58,237,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; margin-bottom: .75rem;
+}
+.cc-label { font-size: .72rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: .25rem; }
+.cc-val { font-weight: 500; font-size: .9rem; }
+.cc-sub { font-size: .8rem; color: var(--muted); }
+.cta-btn {
+  display: inline-flex; align-items: center; gap: .65rem;
+  padding: .9rem 2.5rem;
+  background: linear-gradient(135deg, var(--violet), var(--blue));
+  border: none; border-radius: 50px;
+  color: #fff; font-family: var(--font-body);
+  font-size: 1rem; font-weight: 500; cursor: pointer;
+  box-shadow: 0 0 30px rgba(124,58,237,0.35);
+  animation: cta-pulse 2.5s ease-in-out infinite;
+  transition: transform .2s;
+  text-decoration: none;
+}
+.cta-btn:hover { transform: scale(1.04); }
+@keyframes cta-pulse {
+  0%,100% { box-shadow: 0 0 20px rgba(124,58,237,0.3); }
+  50%      { box-shadow: 0 0 45px rgba(124,58,237,0.55), 0 0 70px rgba(59,130,246,0.2); }
+}
+
+/* ===========================
+   FOOTER
+   =========================== */
+footer {
+  text-align: center; padding: 2rem;
+  border-top: 1px solid var(--border);
+  font-size: .8rem; color: var(--muted);
+}
+
+/* ===========================
+   MOBILE RESPONSIVE
+   =========================== */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex; flex-direction: column; gap: 1rem;
+    position: fixed; top: var(--nav-h); left: 0; right: 0;
+    background: rgba(10,6,18,0.96); backdrop-filter: blur(16px);
+    padding: 2rem; border-bottom: 1px solid var(--border);
+  }
+  .nav-hamburger { display: flex; }
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .contact-cards { grid-template-columns: 1fr; }
+  .hero-name { font-size: 2.8rem; }
+}
+@media (max-width: 480px) {
+  .modules-grid { grid-template-columns: 1fr; }
+  .facts-grid { grid-template-columns: 1fr; }
+  .about-stats { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- STAR FIELD (generated by JS) -->
+<div id="starfield"></div>
+
+<!-- ===========================
+     NAVIGATION
+     =========================== -->
+<nav>
+  <!-- REPLACE: Update initials/name with lecturer's abbreviated name -->
+  <div class="nav-logo">RS · Lecturer</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#modules">Modules</a></li>
+    <li><a href="#funfacts">Fun Facts</a></li>
+    <li><a href="#quotes">Quotes</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ===========================
+     SECTION 1: HERO
+     =========================== -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+
+  <!-- Floating particles -->
+  <div class="particles" id="particles"></div>
+
+  <div class="hero-content reveal">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <!-- REPLACE: Update with lecturer's department -->
+      <span>Belgium Campus · Dept. of Information Technology</span>
+    </div>
+
+    <!-- CSS Avatar character -->
+    <div class="avatar-wrap">
+      <div class="avatar">
+        <div class="avatar-inner">
+          <div class="av-bg"></div>
+          <div class="av-body">
+            <div class="av-head">
+              <!-- REPLACE: Update av-hair color in CSS above to match lecturer -->
+              <div class="av-hair"></div>
+              <div class="av-glasses"></div>
+            </div>
+            <div class="av-shirt">
+              <div class="av-collar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="av-ring"></div>
+    </div>
+
+    <!-- REPLACE: Update with lecturer's full name and title -->
+    <h1 class="hero-name">
+      <span class="line1">Mr.</span>
+      <span class="accent"></span>Reason Sithole</span>
+    </h1>
+
+    <!-- Typewriter tagline — REPLACE the strings array in JS below -->
+    <p class="hero-tagline" >
+      <span id="typewriter"></span><span class="cursor"></span>
+    </p>
+
+    <div class="hero-badges">
+      <!-- REPLACE: Update badges to match lecturer's skills/personality -->
+      <div class="badge">⚡ Simplifies Complex Concepts</div>
+      <div class="badge">🎓 BSc Information Technology</div>
+      <div class="badge">💡 Practical Learning Advocate</div>
+      <div class="badge">🏆 Problem-Solving Expert</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================
+     SECTION 2: ABOUT
+     =========================== -->
+<section id="about">
+  <div class="about-grid">
+    <!-- Left: animated profile card -->
+    <div class="about-card reveal">
+      <div class="about-avatar-lg">🧑‍💻</div>
+      <!-- REPLACE -->
+      <div class="about-name">Mr. Reason Sithole</div>
+      <div class="about-title">Lecturer · Belgium Campus iTversity</div>
+      <div class="about-stats">
+        <!-- REPLACE: Update numbers from social engineering session -->
+        <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Years Teaching</div></div>
+        <div class="stat"><div class="stat-num">3</div><div class="stat-label">Modules Taught</div></div>
+        <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Students Mentored</div></div>
+        <div class="stat"><div class="stat-num">1</div><div class="stat-label">Qualifications</div></div>
+      </div>
+      <div class="about-badges">
+        <!-- REPLACE: Update personality badges from social engineering session -->
+        <div class="personality-badge">🔥 Problem Solver</div>
+        <div class="personality-badge">🚀 Innovative Thinker</div>
+        <div class="personality-badge">🎯 Student Focused</div>
+        <div class="personality-badge">🌟 Mentor & Leader</div>
+      </div>
+    </div>
+
+
+    <div class="reveal reveal-delay-2">
+      <div class="section-tag">About the lecturer</div>
+
+      <h2 class="section-title">Shaping the<br/>next generation</h2>
+
+      <p class="about-text" id="aboutTyped">
+        Mr. Reason Sithole is a Belgium Campus lecturer specializing in Programming and Innovation & Leadership. He believes in hands-on learning and encourages students to develop practical problem-solving skills that prepare them for the modern technology industry.
+      </p>
+      <div class="about-qual">
+        <!-- REPLACE: Add real qualifications from social engineering session -->
+        <div class="qual-item reveal reveal-delay-1">
+          <div class="qual-icon">🎓</div>
+          <div><div class="qual-name">Bachelor of Information Technology</div><div class="qual-inst">Belgium Campus ITversity· 2021</div></div>
+        </div>
+        <div class="qual-item reveal reveal-delay-2">
+          <div class="qual-icon">📜</div>
+          <div><div class="qual-name">Software Development Specialization</div><div class="qual-inst"> Belgium Campus ITversity · 2020</div></div>
+        </div>
+        <div class="qual-item reveal reveal-delay-3">
+          <div class="qual-icon">🏅</div>
+          <div><div class="qual-name">Excellence in Student Mentorship</div><div class="qual-inst">Belgium Campus Academic Department · 2024</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================
+     SECTION 3: MODULES
+     =========================== -->
+<section id="modules">
+  <div class="reveal">
+    <div class="section-tag">Academic expertise</div>
+    <h2 class="section-title">Modules &<br/>Expertise</h2>
+    <p class="section-sub">Hover a card to explore what each module covers.</p>
+  </div>
+
+  <div class="modules-grid">
+    <!-- REPLACE: Add real module codes and names from social engineering session -->
+    <!-- Card 1 -->
+    <div class="flip-card reveal reveal-delay-1">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <div class="flip-icon">💻</div>
+          <div class="flip-code">INL 261</div>
+          <div class="flip-name">Innovation & Leadership</div>
+          <div class="flip-level">[NQF 6] · [12 Credits]</div>
+          <div class="flip-hint">Hover to explore ↺</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-title">Innovation & Leadership</div>
+          <div class="flip-back-desc">Focuses on creative problem-solving, leadership principles, teamwork, entrepreneurship, and innovation strategies in modern technology environments.</div>
+         
+        </div>
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="flip-card reveal reveal-delay-2">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <div class="flip-icon">🧠</div>
+          <div class="flip-code">PRG 161</div>
+          <div class="flip-name">Programming Fundamentals</div>
+          <div class="flip-level">[NQF Level 5] · [15 Credits]</div>
+          <div class="flip-hint">Hover to explore ↺</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-title">Programming Fundamentals</div>
+          <div class="flip-back-desc">Introduces students to software development concepts including variables, loops, functions, object-oriented programming, debugging, and problem-solving techniques.</div>
+          
+        </div>
+      </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="flip-card reveal reveal-delay-3">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <div class="flip-icon">🔧</div>
+          <div class="flip-code">DEV 201</div>
+          <div class="flip-name">Software Development</div>
+          <div class="flip-level">[NQF Level 6] · [20 Credits]</div>
+          <div class="flip-hint">Hover to explore ↺</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-title">Software Development</div>
+          <div class="flip-back-desc">
+            Covers software engineering principles, version control, collaboration workflows, testing, and modern development methodologies.
+           
+
+        </div>
+        </div>
+      </div>
+    </div>
+
+</section>
+
+<!-- ===========================
+     SECTION 4: FUN FACTS
+     =========================== -->
+<section id="funfacts">
+  <div class="reveal">
+    <div class="section-tag">Get to know the human</div>
+    <h2 class="section-title">Fun Facts &<br/>Superpowers</h2>
+    <p class="section-sub">Click each card to reveal something amazing about your lecturer.</p>
+  </div>
+
+  <div class="facts-grid">
+
+    <div class="fact-card reveal reveal-delay-1">
+      <span class="fact-emoji">⚡</span>
+      <div class="fact-label">Superpower</div>
+      <div class="fact-title">Explaining Complex Tech Simply</div>
+      <div class="fact-reveal"> Known for breaking down difficult programming and computer concepts into simple, real-life examples that every student can understand.</div>
+    </div>
+    <div class="fact-card reveal reveal-delay-2">
+      <span class="fact-emoji">🎯</span>
+      <div class="fact-label">Fun Fact</div>
+      <div class="fact-title">Coffee Before Code</div>
+      <div class="fact-reveal"> Never starts a lecture or coding session without a strong cup of coffee and a quick motivational quote for students.</div>
+    </div>
+    <div class="fact-card reveal reveal-delay-3">
+      <span class="fact-emoji">🧠</span>
+      <div class="fact-label">Teaching Philosophy</div>
+      <div class="fact-title">Learn by Building</div>
+      <div class="fact-reveal">Believes students learn best by doing, not just listening — every topic must include a practical example or mini project.</div>
+    </div>
+    <div class="fact-card reveal reveal-delay-4">
+      <span class="fact-emoji">🌟</span>
+      <div class="fact-label">Hidden Talent</div>
+      <div class="fact-title">Graphic Design & Creativity</div>
+      <div class="fact-reveal">Enjoys designing posters, slides, and simple UI layouts in his free time — often helping students improve their project presentations.</div>
+    </div>
+    <div class="fact-card reveal reveal-delay-5">
+      <span class="fact-emoji">🏆</span>
+      <div class="fact-label">Achievement</div>
+      <div class="fact-title">Top Student Support Mentor</div>
+      <div class="fact-reveal">Recognised for consistently improving student pass rates and being one of the most approachable lecturers in the department.</div>
+    </div>
+    <div class="fact-card reveal reveal-delay-6">
+      <span class="fact-emoji">💡</span>
+      <div class="fact-label">Career Advice</div>
+      <div class="fact-title">Build Skills, Not Just Marks</div>
+      <div class="fact-reveal">Always encourages students to focus on real-world skills, projects, and experience — not just passing exams.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================
+     SECTION 5: QUOTE WALL
+     =========================== -->
+<section id="quotes">
+  <div class="quotes-bg"></div>
+  <div class="reveal" >
+    <div class="section-tag">Words of wisdom</div>
+    <h2 class="section-title">Quote Wall</h2>
+    <p class="section-sub">
+      Teaching insights that stick with students long after graduation.
+    </p>
+  </div>
+
+  <div class="quote-carousel reveal reveal-delay-2">
+
+    <div class="quote-slide active">
+      <span class="quote-mark">"</span>
+      <p class="quote-text">Practice makes perfect.</p>
+  
+      <div class="quote-attr">Mr. Reason Sithole</div>
+    </div>
+    <div class="quote-slide">
+      <span class="quote-mark">"</span>
+      <p class="quote-text">Learning happens when knowledge is applied.</p>
+      <div class="quote-attr">Mr. Reason Sithole</div>
+    </div>
+    <div class="quote-slide">
+      <span class="quote-mark">"</span>
+      <p class="quote-text">Innovation starts with curiosity.</p>
+      <div class="quote-attr">Mr. Reason Sithole</div>
+    </div>
+  </div>
+
+  <div class="quote-nav reveal reveal-delay-3">
+    <button class="q-dot active" data-i="0" aria-label="Quote 1"></button>
+    <button class="q-dot" data-i="1" aria-label="Quote 2"></button>
+    <button class="q-dot" data-i="2" aria-label="Quote 3"></button>
+  </div>
+</section>
+
+<!-- ===========================
+     SECTION 6: CONTACT
+     =========================== -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="reveal">
+      <div class="section-tag">Get in touch</div>
+
+      <h2 class="section-title">Connect with<br/>Mr. Reason Sithole</h2>
+      <p class="section-sub">
+       </p>
+      Empowering students 
+      through practical and innovative learning
+     
+    </div>
+
+    <div class="contact-cards reveal reveal-delay-1">
+      
+      <div class="contact-card">
+        <div class="cc-icon">🕐</div>
+        <div class="cc-label">Office Hours</div>
+        <div class="cc-val">Monday – Friday</div>
+        <div class="cc-sub">08:00 – 16:00</div>
+      </div>
+      <div class="contact-card">
+        <div class="cc-icon">🏢</div>
+        <div class="cc-label">Department</div>
+
+        <div class="cc-val">Information Technology</div>
+        <div class="cc-sub">Belgium Campus iTversity</div>
+      </div>
+      <div class="contact-card">
+        <div class="cc-icon">📍</div>
+        <div class="cc-label">Campus</div>
+        <div class="cc-val">Belgium Campus</div>
+        <div class="cc-sub">Pretoria · South Africa</div>
+      </div>
+      <div class="contact-card">
+        <div class="cc-icon">🎓</div>
+        <div class="cc-label">Professional Title</div>
+        
+        <div class="cc-val">Lecturer & Tech Mentor</div>
+        <div class="cc-sub">Programming • Systems Development • Innovation Coaching</div>
+      </div>
+    </div>
+
+    <div class="reveal reveal-delay-3">
+      <!-- Update href if lecturer has a LinkedIn or professional profile -->
+      <a class="cta-btn" href="#contact">
+        <span>✉</span> Connect on LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+
+  <p>© 2026 Mr. Reason Sithole Portfolio</p>
+<p></p>Designed and Developed by INL261 Group 19</p>
+ 
+</footer>
+
+<!-- ===========================
+     JAVASCRIPT
+     =========================== -->
+<script>
+/* ---- STAR FIELD ---- */
+const sf = document.getElementById('starfield');
+for (let i = 0; i < 120; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const sz = Math.random() * 2 + .5;
+  s.style.cssText = `
+    width:${sz}px;height:${sz}px;
+    left:${Math.random()*100}%;top:${Math.random()*100}%;
+    --d:${3+Math.random()*5}s;--delay:${Math.random()*6}s;
+    --op:${.3+Math.random()*.7};
+  `;
+  sf.appendChild(s);
+}
+
+/* ---- PARTICLES (hero) ---- */
+const pc = document.getElementById('particles');
+const pcColors = ['#a78bfa','#93c5fd','#67e8f9','#c4b5fd'];
+for (let i = 0; i < 30; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const sz = Math.random() * 4 + 2;
+  const col = pcColors[Math.floor(Math.random()*pcColors.length)];
+  p.style.cssText = `
+    width:${sz}px;height:${sz}px;
+    left:${Math.random()*100}%;
+    bottom:${Math.random()*40}%;
+    background:${col};
+    --d:${4+Math.random()*5}s;
+    --delay:${Math.random()*8}s;
+    --drift:${(Math.random()-0.5)*40}px;
+  `;
+  pc.appendChild(p);
+}
+
+/* ---- TYPEWRITER ---- */
+// REPLACE: Update these strings with the lecturer's real taglines/roles
+const phrases = [
+  'Empowering students through practical and innovative learning.',
+  'Shaping future technology leaders through hands-on education.',
+  'Specialising in problem-solving, coding, and student development.',
+  'Passionate about helping students turn theory into real-world solutions.',
+];
+let pi = 0, ci = 0, deleting = false;
+const tw = document.getElementById('typewriter');
+function type() {
+  const phrase = phrases[pi];
+  if (!deleting) {
+    tw.textContent = phrase.slice(0, ++ci);
+    if (ci === phrase.length) { deleting = true; setTimeout(type, 2200); return; }
+    setTimeout(type, 55);
+  } else {
+    tw.textContent = phrase.slice(0, --ci);
+    if (ci === 0) { deleting = false; pi = (pi+1)%phrases.length; setTimeout(type, 400); return; }
+    setTimeout(type, 28);
+  }
+}
+type();
+
+/* ---- HAMBURGER NAV ---- */
+const ham = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+ham.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+/* ---- SCROLL REVEAL ---- */
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+
+/* ---- FLIP CARDS (touch support) ---- */
+document.querySelectorAll('.flip-card').forEach(card => {
+  card.addEventListener('click', () => card.classList.toggle('flipped'));
+});
+
+/* ---- FUN FACTS ---- */
+document.querySelectorAll('.fact-card').forEach(card => {
+  card.addEventListener('click', () => card.classList.toggle('revealed'));
+});
+
+/* ---- QUOTE CAROUSEL ---- */
+const slides = document.querySelectorAll('.quote-slide');
+const dots   = document.querySelectorAll('.q-dot');
+let current  = 0, autoTimer;
+
+function goTo(i) {
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+}
+function next() { goTo((current + 1) % slides.length); }
+
+dots.forEach(d => d.addEventListener('click', () => {
+  clearInterval(autoTimer);
+  goTo(+d.dataset.i);
+  autoTimer = setInterval(next, 5000);
+}));
+
+autoTimer = setInterval(next, 5000);
+
+/* ---- SMOOTH ACTIVE NAV ---- */
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.style.color = a.getAttribute('href') === '#'+current ? 'var(--white)' : '';
+  });
+}, { passive: true });
+</script>
+</body>
+</html>
